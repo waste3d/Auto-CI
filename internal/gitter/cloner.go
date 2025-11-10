@@ -13,7 +13,7 @@ func CloneToTemp(url string) (string, error) {
 		return "", fmt.Errorf("не удалось создать временную директорию: %w", err)
 	}
 
-	fmt.Printf("Клонирование репозитория %s...\n", url)
+	fmt.Printf("Клонирование репозитория в %s...\n", tempDir)
 
 	_, err = git.PlainClone(tempDir, false, &git.CloneOptions{
 		URL: url,
