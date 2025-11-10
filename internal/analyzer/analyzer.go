@@ -19,6 +19,7 @@ type Detector interface {
 func Analyze(dir string) (*ProjectInfo, error) {
 	detectors := []Detector{
 		NewGoDetector(),
+		NewNodeJSDetector(),
 	}
 
 	for _, detector := range detectors {
