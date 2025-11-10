@@ -1,6 +1,8 @@
 package analyzer
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ProjectInfo struct {
 	Language       string

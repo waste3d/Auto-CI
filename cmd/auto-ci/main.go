@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/waste3d/Auto-CI/internal/analyzer"
 	"github.com/waste3d/Auto-CI/internal/gitter"
 )
 
@@ -31,7 +32,20 @@ var generateCmd = &cobra.Command{
 		defer os.RemoveAll(tempDir)
 
 		fmt.Printf("Результат будет сохранен в: %s\n", output)
-		fmt.Println("\n(На этом шаге логика анализа и генерации еще не реализована)")
+
+		projectInfo, err := analyzer.Analyze(tempDir)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Ошибка при анализе проекта: %s\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("\n--- Результаты анализа ---")
+		fmt.Printf("Язык: %s\n", projectInfo.Language)
+		fmt.Printf("Команда для установки зависимостей: %s\n", projectInfo.InstallCommand)
+		fmt.Printf("Команда для сборки: %s\n", projectInfo.BuildCommand)
+		fmt.Printf("Команда для запуска тестов: %s\n", projectInfo.TestCommand)
+		fmt.Printf("Используемый Docker образ: %s\n", projectInfo.DockerImage)
+		fmt.Println("\n(На следующем шаге эти данные будут использованы для генерации YAML-файла)")
 	},
 }
 
